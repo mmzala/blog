@@ -6,13 +6,19 @@ description: Marcin Zalewski - Date TBD
 
 TODO: Small intro...
 
-## Table of contents
+## Table Of Contents
 1. [Introduction To Hair Ray-Tracing](#introduction)
     1. [The Ray-Tracing Pipeline](#ray-tracing-pipeline)
     2. [Defining The Problem](#defining-the-problem)
     3. [Storing Hair Model Data](#stroing-hair-model-data)
 2. [Hair Primitives](#hair-primitives)
     1. [DOTS: Disjoint Orthoginal Triangle Strips](#dots)
+    2. [The Phantom Ray-Hair Intersector](#prhi) 
+    3. [LSS: Linear Swept Spheres](#lss)
+    4. [RoCaps: Roving Capsules](#rocaps) 
+3. [Conclusion](#conclusion)
+   1. [Further Reading](#further-reading)
+   2. [Sources](#sources)
 
 ## Introduction To Hair Ray-Tracing <a name="introduction"></a>
 
@@ -54,6 +60,7 @@ Instead of using triangles, we can use poly lines to approximate the form of a h
 
 We can also use curves to store our hair models. This gets rid of the segmentation entirely, as even when using multiple curves for a hair strand, we can connect them seamlessly. So, it gives us a more realistic result as it correctly follows the path a real hair strand would have. That also means that we can potentially use less curve primitives to create hair compared to polylines, as we no longer need to approximate the path using straight segments.
 
+
 ## Hair Primitives <a name="hair-primitives"></a>
 
 TODO...
@@ -61,3 +68,30 @@ TODO...
 ### DOTS: Disjoint Orthogonal Triangle Strips <a name="dots"></a>
 
 TODO...
+
+### The Phantom Ray-Hair Intersector <a name="prhi"></a>
+
+TODO...
+
+### LSS: Linear Swept Spheres <a name="lss"></a>
+
+TODO...
+
+### LSS: RoCaps: Roving Capsules <a name="rocaps"></a>
+
+TODO...
+
+
+## Conclusion <a name="conclusion"></a>
+
+TODO...
+
+### Further Reading <a name="further-reading"></a>
+
+TODO...
+
+### Sources <a name="sources"></a>
+
+- [1] [*Alexander Reshetov and David Luebke. Phantom Ray-Hair Intersector, 2018*](https://research.nvidia.com/sites/default/files/pubs/2018-08_Phantom-Ray-Hair-Intersector//Phantom-HPG%202018.pdf)
+
+---
