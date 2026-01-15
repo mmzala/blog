@@ -217,7 +217,10 @@ TODO...
 
 - [1] [*Alexander Reshetov and David Luebke. Phantom Ray-Hair Intersector, 2018*](https://research.nvidia.com/sites/default/files/pubs/2018-08_Phantom-Ray-Hair-Intersector//Phantom-HPG%202018.pdf)
 - [2] [*Alexander Reshetov and David Hart. Modeling Hair Strands with Roving Capsules, 2024*](https://www.researchgate.net/publication/381317645_Modeling_Hair_Strands_with_Roving_Capsules)
-- [3] [*David Hart and Pawel Kozlowski. Render Path-Traced Hair in Real Time with NVIDIA GeForce RTX 50 Series GPUs, 2025*](https://developer.nvidia.com/blog/render-path-traced-hair-in-real-time-with-nvidia-geforce-rtx-50-series-gpus/)
-- [4] [*Mike "Pomax" Kamermans. A Primer on Bézier Curves, 2011-2020*](https://pomax.github.io/bezierinfo/)
+- [3] [*Alexander Reshetov and David Hart. Roving Capsules Shadertoy Demonstration, 2024*](https://www.shadertoy.com/view/4ffXWs)
+- [4] [*David Hart and Pawel Kozlowski. Render Path-Traced Hair in Real Time with NVIDIA GeForce RTX 50 Series GPUs, 2025*](https://developer.nvidia.com/blog/render-path-traced-hair-in-real-time-with-nvidia-geforce-rtx-50-series-gpus/)
+- [5] [*Mike "Pomax" Kamermans. A Primer on Bézier Curves, 2011-2020*](https://pomax.github.io/bezierinfo/)
+- [6] [*Juha Sjoholm. Best Practices for Using NVIDIA RTX Ray Tracing (Updated), 2022*](https://developer.nvidia.com/blog/best-practices-for-using-nvidia-rtx-ray-tracing-updated/)
+- [7] [*NVIDIA. RTX Character Rendering GitHub repository*](https://github.com/NVIDIA-RTX/RTXCR)
 
 ---
