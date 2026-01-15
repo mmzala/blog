@@ -204,7 +204,9 @@ TODO...
 
 ## Conclusion <a name="conclusion"></a>
 
-TODO...
+So, in the end what technique should you use? That depends...
+
+You should ask yourself what you are trying to use it for. Curly hair using linear primitives will require much more detail, while curved primitives can easily represent such models.
 Although curved primitives require iterative approaches to resolve their intersections and will be slower to run.
 
 ### Further Reading <a name="further-reading"></a>
