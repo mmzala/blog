@@ -91,7 +91,66 @@ So how are we going to solve that?
 
 ### The Phantom Ray-Hair Intersector <a name="prhi"></a>
 
-TODO...
+That’s where the Phantom Ray-Hair Intersector comes in.
+
+It allows us to use our curve data directly in our custom intersection shader to check ray-curve intersections, which results in an accurate and smooth hair strand.
+The hair strand itself is now also a volume and has accurate normals, which looks much better than our previous method. We also can turn the end caps, which would be flat, on or off.
+
+--- Next Section ---
+
+But how do we use our curve data to implement the phantom ray-hair intersector?
+
+Now we are working with our own custom curve primitive, which means first we must generate our own acceleration structure that the ray can traverse through.
+Luckily Vulkan allows us to feed it axis aligned bounding boxes instead of triangle data, as leaf nodes for BVH construction.
+
+Then in our intersection shader we can get our curve data using the primitive ID that is the index to the leaf node AABB. Since each curve has its own bounding box,
+The same index can be reused to access the curve buffer.
+
+Because of this, we only need to generate our AABBs for each curve.
+
+--- Next Section ---
+
+If we want a quick solution to approximate a bounding box, we can just include the control points inside the AABB as well.
+Although this is a pretty bad solution as it leaves even more empty space in the AABB, so it adds quite a lot of overhead when tracing rays throughout the hair model.
+
+Instead, we could use a derivative and find the curve’s roots on all axes. This would give us the curve’s extremities. Then if we make sure all these, points together with the start and end point of the curve are all inside the bounding box, it would give us an accurate AABB that tightly bounds the curve.
+But as this process can be quite complicated to explain and is math-heavy, it would take some time to explain fully, so I won’t be explaining it in detail.
+
+--- Next Section ---
+
+One of the problems we mentioned at the beginning was that thin long geometry was bad for BVH traversal. We can somewhat overcome this during BVH creation, by generating multiple bounding boxes for curves, which removes a lot of empty space in some instances.
+
+--- Next Section ---
+
+So now that we have our BVH ready and we can traverse through it, we want to iteratively find the ray-curve intersection. So, let’s take a look at how we can do that.
+
+We’ll start our iterations at t 0 or 1, where t is the distance along the curve. Each iteration has 3 main steps we have to perform.
+
+1. We first create a cone at distance t along the curve that has the same radius as the thickness of our hair strand. The cone’s axis will travel straight toward the direction we’re trying to converge to.
+
+2. Next we check for the ray-cone intersection. If we intersected the cone and the cone’s start point is close enough to the projected intersection point onto the cone’s base, we can report the intersection and extract the needed information like the position, normals etc. We need to do the second check, where project the intersection point as well, since otherwise we could report an intersection with the cone that would not be on the curve.
+
+3. In case we didn’t find the intersection, we go to step 3, where we use the projected intersection point onto the curve, to travel along it to the next t value. If we are outside of the curve, then we know the ray won’t intersect the curve and we can safely return. If t is still in bounds, we go back to step 1 and iterate until we find an intersection or reach the max iteration count.
+
+After running this algorithm, we’ll have rendered our curve.
+
+--- Next Section ---
+
+But of course, there are downsides. Some curves are impossible to render.
+
+For example, if you have a curve that wraps around too much, the real intersection can be hidden by phantom ones, and the ray will never hit the curve as seen on the left picture.
+Although that can be fixed by pre-processing the curves and splitting them whenever they wrap around too much.
+
+Another example of an impossible curve is when the start and end radii differ too much, although such as cases are unlikely to happen in real hair models.
+
+There is another big downside to this algorithm.
+
+--- Next Section ---
+
+The phantom ray hair intersector runs on average 1.5 times slower than our previous technique where we used triangles.
+Due to the nature of it being an iterative approach, the time to intersect with a curve is not constant, so in some cases it may run even slower.
+
+Or at least on my implementation… There are some micro-optimizations I could implement to make the iterative process faster, or optimizations I have not applied to traversing the acceleration structure. But first let’s keep looking if we can find a technique that doesn’t sacrifice as much frame time for quality.
 
 ### LSS: Linear Swept Spheres <a name="lss"></a>
 
