@@ -216,5 +216,7 @@ TODO...
 ### Sources <a name="sources"></a>
 
 - [1] [*Alexander Reshetov and David Luebke. Phantom Ray-Hair Intersector, 2018*](https://research.nvidia.com/sites/default/files/pubs/2018-08_Phantom-Ray-Hair-Intersector//Phantom-HPG%202018.pdf)
+- [2] [*Alexander Reshetov and David Hart. Modeling Hair Strands with Roving Capsules, 2024*](https://www.researchgate.net/publication/381317645_Modeling_Hair_Strands_with_Roving_Capsules)
+- [3] [*David Hart and Pawel Kozlowski. Render Path-Traced Hair in Real Time with NVIDIA GeForce RTX 50 Series GPUs, 2025*](https://developer.nvidia.com/blog/render-path-traced-hair-in-real-time-with-nvidia-geforce-rtx-50-series-gpus/)
 
 ---
