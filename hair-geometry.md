@@ -102,33 +102,94 @@ That’s where the Phantom Ray-Hair Intersector comes in.
 It allows us to use our curve data directly in our custom intersection shader to check ray-curve intersections, which results in an accurate and smooth hair strand.
 The hair strand itself is now also a volume and has accurate normals, which looks much better than our previous method. We also can turn the end caps, which would be flat, on or off.
 
---- Next Section ---
+![img.png](assets/images/hair-geometry/prhi-side-view.png)
+
+![img.png](assets/images/hair-geometry/prhi-end-view.png)
 
 But how do we use our curve data to implement the phantom ray-hair intersector?
+
+#### The Implementation - AABB construction
 
 Now we are working with our own custom curve primitive, which means first we must generate our own acceleration structure that the ray can traverse through.
 Luckily Vulkan allows us to feed it axis aligned bounding boxes instead of triangle data, as leaf nodes for BVH construction.
 
+```c++
+vk::AccelerationStructureGeometryAabbsDataKHR aabbData {};
+aabbData.data = aabbBufferDeviceAddress;
+aabbData.stride = sizeof(AABB);
+
+vk::AccelerationStructureGeometryKHR& accelerationStructureGeometry = output.geometry;
+accelerationStructureGeometry.flags = vk::GeometryFlagBitsKHR::eOpaque;
+accelerationStructureGeometry.geometryType = vk::GeometryTypeKHR::eAabbs;
+accelerationStructureGeometry.geometry.aabbs = aabbData; // Instead of triangles, we give AABBs
+
+const uint32_t primitiveCount = hair.aabbCount;
+
+vk::AccelerationStructureBuildRangeInfoKHR& buildRangeInfo = output.info;
+buildRangeInfo.primitiveCount = primitiveCount;
+buildRangeInfo.primitiveOffset = 0;
+buildRangeInfo.firstVertex = 0;
+buildRangeInfo.transformOffset = 0;
+
+vk::DeviceOrHostAddressConstKHR curvePrimitiveBufferDeviceAddress {};
+curvePrimitiveBufferDeviceAddress.deviceAddress = vulkanContext->GetBufferDeviceAddress(model->curveBuffer->buffer);
+
+GeometryNodeCreation& nodeCreation = output.node;
+nodeCreation.primitiveBufferDeviceAddress = curvePrimitiveBufferDeviceAddress.deviceAddress;
+nodeCreation.material = hair.material;
+```
+
 Then in our intersection shader we can get our curve data using the primitive ID that is the index to the leaf node AABB. Since each curve has its own bounding box,
 The same index can be reused to access the curve buffer.
 
-Because of this, we only need to generate our AABBs for each curve.
+```glsl
+void main()
+{
+    BLASInstance blasInstance = blasInstances[gl_InstanceCustomIndexEXT];
+    GeometryNode geometryNode = geometryNodes[blasInstance.firstGeometryIndex + gl_GeometryIndexEXT];
 
---- Next Section ---
+    Curves curves = Curves(geometryNode.primitiveBufferDeviceAddress);
+    Curve curve = curves.curves[gl_PrimitiveID];
+
+    // Use curve data for intersection check...
+}
+```
+
+Because of this, we only need to generate our AABBs for each curve.
 
 If we want a quick solution to approximate a bounding box, we can just include the control points inside the AABB as well.
 Although this is a pretty bad solution as it leaves even more empty space in the AABB, so it adds quite a lot of overhead when tracing rays throughout the hair model.
 
-Instead, we could use a derivative and find the curve’s roots on all axes. This would give us the curve’s extremities. Then if we make sure all these, points together with the start and end point of the curve are all inside the bounding box, it would give us an accurate AABB that tightly bounds the curve.
-But as this process can be quite complicated to explain and is math-heavy, it would take some time to explain fully, so I won’t be explaining it in detail.
+```c++
+std::vector<AABB> GenerateAABBs(const std::vector<Curve>& curves, float curveRadius)
+{
+    std::vector<AABB> aabbs(curves.size());
 
---- Next Section ---
+    for (uint32_t i = 0; i < curves.size(); ++i)
+    {
+        const Curve& curve = curves[i];
+        AABB& aabb = aabbs[i];
+
+        aabb.min = glm::min(glm::min(curve.start, curve.end), glm::min(curve.controlPoint1, curve.controlPoint2)) - curveRadius;
+        aabb.max = glm::max(glm::max(curve.start, curve.end), glm::max(curve.controlPoint1, curve.controlPoint2)) + curveRadius;
+    }
+
+    return aabbs;
+}
+```
+
+Instead, we could use a derivative and find the curve’s roots on all axes. This would give us the curve’s extremities. Then if we make sure all these, points together with the start and end point of the curve are all inside the bounding box, it would give us an accurate AABB that tightly bounds the curve.
+But as this process can be quite complicated to explain and is math-heavy, it would take some time to explain fully, so I won’t be explaining it in detail. TODO: Add link to source...
+
+![img.png](assets/images/hair-geometry/tight-aabb.png)
 
 One of the problems we mentioned at the beginning was that thin long geometry was bad for BVH traversal. We can somewhat overcome this during BVH creation, by generating multiple bounding boxes for curves, which removes a lot of empty space in some instances.
 
---- Next Section ---
+![img.png](assets/images/hair-geometry/aabb-leaf-node-split.png)
 
 So now that we have our BVH ready and we can traverse through it, we want to iteratively find the ray-curve intersection. So, let’s take a look at how we can do that.
+
+#### The Implementation - Phantom Ray-Hair Intersector
 
 We’ll start our iterations at t 0 or 1, where t is the distance along the curve. Each iteration has 3 main steps we have to perform.
 
