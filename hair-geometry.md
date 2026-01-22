@@ -69,6 +69,10 @@ TODO...
 
 The ray-tracing hardware excels in performing ray-triangle intersections, so why not use them for hair strands? The first technique that does just that, Disjoint Orthogonal Triangle Strips. Or in short DOTS.
 
+![img.png](assets/images/hair-geometry/dots-side-view.png)
+
+![img.png](assets/images/hair-geometry/dots-end-view.png)
+
 DOTS is solution for tessellating curves by using 2 orthogonal quads per segment, which enables viewing from any angle without having to re-orient the triangles to face the camera.
 We tessellate such segments by sampling a curved hair strand segment n number of times depending on how much detail we want to create straight line segments.Then we iterate over all the sampled lines to build an orthogonal frame on the line and generate the vertices along both face axes, also taking into account the hair strand radius.
 
@@ -76,16 +80,18 @@ Then we take all these generated triangles and construct a BVH the same way we d
 
 This is a pretty good approximation at medium to far distances. But, you may already notice a couple of issues with this approach. For example, how are we going to shade those segments when they are orthogonal to each other?
 
---- Next Section ---
-
 The quads we use are not naturally round, so we can’t just take the geometry normal to shade the fragments. Although, we can somewhat fix this issue by rounding the geometry normals based on how close the normal is to the edge of the quad. This would give us a better shading normal that approximates how a round primitive that has volume would look like.
 
---- Next Section ---
+![img.png](assets/images/hair-geometry/dots-normals.png)
 
-When we go back to the primitive visualization.
+But when we go back to the primitive visualization once more.
 
 Another glaring issue is that we regressed from using curves for smooth hair strands to again approximating them. There are also gaps between each segment, but this is negligible and is only seen when you’re really close to the hair strands.
 Both issues can be a bit alleviated by adding more segments to the model when viewing it from medium or far distances but can’t be entirely mitigated at close distances.
+
+![img.png](assets/images/hair-geometry/dots-side-view.png)
+
+![img.png](assets/images/hair-geometry/dots-end-view.png)
 
 So how are we going to solve that?
 
