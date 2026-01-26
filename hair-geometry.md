@@ -30,6 +30,8 @@ But first let’s take a quick detour to talk about some important concepts we�
 
 In ray-tracing we send out rays from the camera’s point of view inside the ray generation shader. These rays then traverse an acceleration structure, to travel through our scene, which in Vulkan’s case is a bounding volume hierarchy that stores instances of our geometry.
 
+![img.png](assets/images/hair-geometry/vulkan-rt-pipeline.png)
+
 During the traversal we check using an intersection shader if we intersected with any geometry. When a ray passes this check, an any hit shader is called. This shader is used to tell our pipeline if we want to continue the traversal or discard our ray. This functionality can be used to performs things like alpha-testing to discard intersections.
 
 Finally, the closest hit program is invoked on the intersection closest to the ray origin. It is used to retrieve our geometry information, like positions and normals, and usually used to perform the shading itself. In case our ray doesn’t hit anything, the miss shader is called, which can be used to give the background a color or to render an environment map.
@@ -42,11 +44,15 @@ So now that we have a basic understanding of the ray-tracing pipeline, we can go
 
 And since we want to render hair models, why not just use textured cards? They are a good way to achieve reasonable quality for hair on a tight frame budget. However, this kind of setup is very limited since a single textured card has multiple hair strands per card which limits control over individual strands. So, by design this approach does not allow much room for simulating or animating hair.
 
+![img.png](assets/images/hair-geometry/hair-cards.png)
+
 That is where strand-based approaches come in, where we give each hair strand its own geometry. This would give us finer control over how the hair looks like and give us flexibility to animate and simulate the geometry accurately.
 
---- Next Section ---
+![img.png](assets/images/hair-geometry/hair-strands.png)
 
 But in-turn by using strand-based approaches, we encounter other problems. Like ray-tracing thin geometry that is elongated on an axis, which is horrible for BVH traversal performance. Since elongated geometries have non-optimal bounding volumes with lost of empty space and more overlap between other volumes close by. This results in a higher chance of intersecting the geometry and needing to check more intersections, which we want to avoid if possible.
+
+![img.png](assets/images/hair-geometry/bvh-elongated-geometry.png)
 
 There is also the important question of what geometric primitive we want use to represent the individual hair strands. And how many strands do we want to use for hair models? Do we subdivide the hair strands into segments? If so, how many? We’ll take a closer look at these problems throughout this presentation, and I’ll showcase some solutions to them or make them less prominent.
 
@@ -54,16 +60,17 @@ There is also the important question of what geometric primitive we want use to 
 
 Before rendering any hair model, let’s first look at how we create and store them.
 
-Instead of using triangles, we can use poly lines to approximate the form of a hair strand. Each vertex in a polyline would store a position and a radius, which we would use for the thickness of the hair strand. Such an approximation comes with a cost of quality of course, because we divide the hair strand into segments, we can see that it is not smooth. We could fix such an issue by simply adding more poly line vertices until we think it looks good enough. But there is also another solution to this problem.
+Instead of using triangles, we can use poly lines to approximate the form of a hair strand. Each vertex in a polyline would store a position and a radius, which we would use for the thickness of the hair strand. Such an approximation comes with a cost of quality of course, because we divide the hair strand into segments, we can see that it is not smooth. We could fix such an issue by simply adding more poly line vertices until we think it looks good enough.
 
---- Next Section ---
+![img.png](assets/images/hair-geometry/hair-strand-segmented.png)
 
-We can also use curves to store our hair models. This gets rid of the segmentation entirely, as even when using multiple curves for a hair strand, we can connect them seamlessly. So, it gives us a more realistic result as it correctly follows the path a real hair strand would have. That also means that we can potentially use less curve primitives to create hair compared to polylines, as we no longer need to approximate the path using straight segments.
+But there is also another solution to this problem. We can also use curves to store our hair models. This gets rid of the segmentation entirely, as even when using multiple curves for a hair strand, we can connect them seamlessly. So, it gives us a more realistic result as it correctly follows the path a real hair strand would have. That also means that we can potentially use less curve primitives to create hair compared to polylines, as we no longer need to approximate the path using straight segments.
 
+![img.png](assets/images/hair-geometry/hair-strand-curve.png)
 
 ## Hair Primitives <a name="hair-primitives"></a>
 
-TODO...
+Now that we understand what data we are working with and what questions we want to answer, we can finally look at ray-tracing hair. So let's talk rendering the curve geometry.
 
 ### DOTS: Disjoint Orthogonal Triangle Strips <a name="dots"></a>
 
