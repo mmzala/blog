@@ -221,32 +221,46 @@ Or at least on my implementation… There are some micro-optimizations I could i
 
 Last year, in 2025, NVIDIA released a new ray-tracing primitive with hardware support, Linear Swept Spheres. One of the main applications of the LSS primitive is rendering hair geometry.
 
+![img.png](assets/images/hair-geometry/lss-side-view.png)
+
+![img.png](assets/images/hair-geometry/lss-end-view.png)
+
+![img.png](assets/images/hair-geometry/lss-side-view-end-caps.png)
+
+![img.png](assets/images/hair-geometry/lss-end-view-end-caps.png)
+
 The primitive is a round 3D line with varying radii shaped like a cylinder or cone with optional spheres used as end caps. By chaining them together one after the other we can build curves to represent our hair strands.
 Since it is hardware accelerated and the intersection time is constant, it is really fast and runs around the same speed as our first solution that used triangles, but compared to them, it drastically improves memory usage, as we only need to store a position and radius per vertex, where each line has 2 vertices.
 
---- Next Section ---
-
-But as you may have noticed the curve has been segmented again into sections, which makes the hair strand no longer smooth. And another big limitation is that since its hardware accelerated, it only works on NVIDIA 5000 series GPUs.
+But as you may have noticed the curve has been segmented again into sections, which makes the hair strand no longer smooth. And another big limitation is that since its hardware accelerated, it only works on NVIDIA 50xx series GPUs.
 So, let’s see if we can do something about these 2 issues.
 
 ### RoCaps: Roving Capsules <a name="rocaps"></a>
 
 And we’re in luck, as the LSS primitive from NVIDIA is based off of a paper from 2024 which proposes that hair strands can be modeled by sweeping spheres with varying radii along curves.
 
+![img.png](assets/images/hair-geometry/rc-side-view.png)
+
+![img.png](assets/images/hair-geometry/rc-end-view.png)
+
 Such shapes can be ray-traced by finding intersections of a given ray with a set of roving capsules defined at runtime. Or RoCaps in short.
 It is also an iterative approach, but it gets a substantial performance boost by eliminating parts of the curved shape that are guaranteed not to intersect with a given ray.
 This results in an improvement of ~30% overall in performance over the phantom ray-hair intersector.
 
---- Next Section ---
+#### RoCaps - The Implementation
+
+TODO: Mention that AABB creation has to happen here as well...
 
 The algorithm works by finding possible intervals where the ray could intersect by iteratively eliminating parts that are guaranteed not to intersect.
+
+![img.png](assets/images/hair-geometry/rc-intersection-points.png)
 
 The for each interval, we make it smaller by checking if a sphere bounding the interval intersects with the ray. If it does, we know we can still intersect with the curve. This is also where the swept spheres name comes from. But if it doesn’t we approximate the root of the interval on the curve. This either makes the interval smaller and deletes it entirely.
 
 If the interval is still there, we compute a capsule also taking into consideration the radius of the curve at the current point and try to intersect with it.
 We repeat this process until we intersect or the interval disappears. And due to finding possible intersection intervals at the beginning, an intersection is usually found within 1 or 2 iterations.
 
---- Next Section ---
+#### RoCaps - The Downsides
 
 Using quadratic or cubic Bezier curves, adding more control points results in more complex root approximation and is not worth it for performance.
 
@@ -254,7 +268,9 @@ Also, when a curve is quickly changing along with it’s radius, it can lead to 
 
 But the problems we had with our phantom ray-hair intersector are gone!
 
---- Next Section ---
+![img.png](assets/images/hair-geometry/prhi-impossible-curves.png)
+
+#### RoCaps - Comparing to LSS
 
 Why implement the algorithm in linear segments? I have had the chance to talk to an NVIDIA employee that worked on the technology and ask him about it.
 
