@@ -193,6 +193,8 @@ So now that we have our BVH ready and we can traverse through it, we want to ite
 
 We’ll start our iterations at t 0 or 1, where t is the distance along the curve. Each iteration has 3 main steps we have to perform.
 
+![img.png](assets/images/hair-geometry/prhi-3-itrs.png)
+
 1. We first create a cone at distance t along the curve that has the same radius as the thickness of our hair strand. The cone’s axis will travel straight toward the direction we’re trying to converge to.
 
 2. Next we check for the ray-cone intersection. If we intersected the cone and the cone’s start point is close enough to the projected intersection point onto the cone’s base, we can report the intersection and extract the needed information like the position, normals etc. We need to do the second check, where project the intersection point as well, since otherwise we could report an intersection with the cone that would not be on the curve.
@@ -201,20 +203,14 @@ We’ll start our iterations at t 0 or 1, where t is the distance along the curv
 
 After running this algorithm, we’ll have rendered our curve.
 
---- Next Section ---
-
-But of course, there are downsides. Some curves are impossible to render.
-
-For example, if you have a curve that wraps around too much, the real intersection can be hidden by phantom ones, and the ray will never hit the curve as seen on the left picture.
+But of course, there are downsides. Some curves are impossible to render. For example, if you have a curve that wraps around too much, the real intersection can be hidden by phantom ones, and the ray will never hit the curve as seen on the left picture.
 Although that can be fixed by pre-processing the curves and splitting them whenever they wrap around too much.
 
 Another example of an impossible curve is when the start and end radii differ too much, although such as cases are unlikely to happen in real hair models.
 
-There is another big downside to this algorithm.
+![img.png](assets/images/hair-geometry/prhi-impossible-curves.png)
 
---- Next Section ---
-
-The phantom ray hair intersector runs on average 1.5 times slower than our previous technique where we used triangles.
+There is another big downside to this algorithm. The phantom ray hair intersector runs on average 1.5 times slower than our previous technique where we used triangles.
 Due to the nature of it being an iterative approach, the time to intersect with a curve is not constant, so in some cases it may run even slower.
 
 Or at least on my implementation… There are some micro-optimizations I could implement to make the iterative process faster, or optimizations I have not applied to traversing the acceleration structure. But first let’s keep looking if we can find a technique that doesn’t sacrifice as much frame time for quality.
