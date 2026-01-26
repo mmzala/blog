@@ -189,7 +189,7 @@ One of the problems we mentioned at the beginning was that thin long geometry wa
 
 So now that we have our BVH ready and we can traverse through it, we want to iteratively find the ray-curve intersection. So, let’s take a look at how we can do that.
 
-#### The Implementation - Phantom Ray-Hair Intersector
+#### Phantom Ray-Hair Intersector - The Implementation
 
 We’ll start our iterations at t 0 or 1, where t is the distance along the curve. Each iteration has 3 main steps we have to perform.
 
@@ -202,6 +202,8 @@ We’ll start our iterations at t 0 or 1, where t is the distance along the curv
 3. In case we didn’t find the intersection, we go to step 3, where we use the projected intersection point onto the curve, to travel along it to the next t value. If we are outside of the curve, then we know the ray won’t intersect the curve and we can safely return. If t is still in bounds, we go back to step 1 and iterate until we find an intersection or reach the max iteration count.
 
 After running this algorithm, we’ll have rendered our curve.
+
+#### Phantom Ray-Hair Intersector - The Downsides
 
 But of course, there are downsides. Some curves are impossible to render. For example, if you have a curve that wraps around too much, the real intersection can be hidden by phantom ones, and the ray will never hit the curve as seen on the left picture.
 Although that can be fixed by pre-processing the curves and splitting them whenever they wrap around too much.
