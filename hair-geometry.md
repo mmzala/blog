@@ -4,7 +4,9 @@ title: Ray-Tracing Hair Geometry - Graphics Study
 description: Marcin Zalewski - Date TBD
 ---
 
-TODO: Small intro...
+Hair geometry rendering has been mostly a mistery for me over the time I have been learning graphics programming.
+As so, I have spent the last weeks researching how hair geometry is handled in real-time applications.
+Throughout this blog post I'll be sharing what I have learned and some implementations using Vulkan's ray-tracing pipeline.
 
 ## Table Of Contents
 1. [Introduction To Hair Ray-Tracing](#introduction)
