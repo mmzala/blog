@@ -24,11 +24,14 @@ Throughout this blog post I'll be sharing what I have learned and some implement
 
 ## Introduction To Hair Ray-Tracing <a name="introduction"></a>
 
-TODO...
+Ray-tracing, opposite to rasterization, allows us to model our own custom geometry, as rasterization is built around pushing out as many triangles through the pipeline as possible.
+This gives us more freedom in how we can represent our data in rendering.
+
+We will leverage this fact for hair rendering to decide from what geometric primitives hair models are made of.
 
 ### The Ray-Tracing Pipeline: A Quick Recap <a name="ray-tracing-pipeline"></a>
 
-But first let’s take a quick detour to talk about some important concepts we’ll need to implement our hair geometry.
+But before diving into talking about the different primitives we can use, let’s take a quick detour to talk about some important concepts we’ll need to implement our hair geometry.
 
 In ray-tracing we send out rays from the camera’s point of view inside the ray generation shader. These rays then traverse an acceleration structure, to travel through our scene, which in Vulkan’s case is a bounding volume hierarchy that stores instances of our geometry.
 
@@ -70,9 +73,12 @@ But there is also another solution to this problem. We can also use curves to st
 
 ![img.png](assets/images/hair-geometry/hair-strand-curve.png)
 
+
 ## Hair Primitives <a name="hair-primitives"></a>
 
 Now that we understand what data we are working with and what questions we want to answer, we can finally look at ray-tracing hair. So let's talk rendering the curve geometry.
+
+TODO: Link to source code...
 
 ### DOTS: Disjoint Orthogonal Triangle Strips <a name="dots"></a>
 
