@@ -76,9 +76,9 @@ But there is also another solution to this problem. We can also use curves to st
 
 ## Hair Primitives <a name="hair-primitives"></a>
 
-Now that we understand what data we are working with and what questions we want to answer, we can finally look at ray-tracing hair. So let's talk rendering the curve geometry.
-
-TODO: Link to source code...
+Now that we understand what data we are working with and what questions we want to answer, we can finally look at ray-tracing hair. 
+All the code I show in the following sections are also found on GitHub on my [*vkhrt*](https://github.com/mmzala/vkhrt) repository.
+So let's talk rendering the curve geometry.
 
 ### DOTS: Disjoint Orthogonal Triangle Strips <a name="dots"></a>
 
