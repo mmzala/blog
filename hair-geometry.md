@@ -277,9 +277,9 @@ We repeat this process until we intersect or the interval disappears. And due to
 
 #### RoCaps - The Downsides
 
-Using quadratic or cubic Bezier curves, adding more control points results in more complex root approximation and is not worth it for performance.
+Using quadratic or cubic Bézier curves, adding more control points results in more complex root approximation and is not worth it for performance.
 
-Also, when a curve is quickly changing along with it’s radius, it can lead to the curve folding onto itself. But again, such a scenario is very unlikely to happen with a hair model.
+Also, when a curve is quickly changing along with its radius, it can lead to the curve folding onto itself. But again, such a scenario is very unlikely to happen with a hair model.
 
 But the problems we had with our phantom ray-hair intersector are gone!
 
@@ -293,7 +293,16 @@ Since LSS is on a linear segment as that allows for a non-iterative implementati
 
 This is better for a hardware port as non-iterative implementations have a predictable execution flow, which means you can make assumptions and optimize for it. For example, is known what the exact resource usage will be and it can be accounted for. It is also easier to implement as the sequential flow of logic gates and registers is easier to verify and is less prone to errors.
 
-### Bonus: Voxels?  <a name="voxels"></a>
+### Bonus: Voxels? <a name="voxels"></a>
+
+This is a bonus section and can be skipped as I'll be talking about an experiment I did with voxels, which has not been proven in any production application yet.
+But if you're interested in voxel rendering, this is the section for you!
+
+My inspiration for using voxels as hair primitives came from the [Witcher 4 demo](https://www.youtube.com/watch?v=Nthv4xF_zHU), where Unreal Engine showcased the ability to render dense thin foliage geometry approximated by voxels.
+They make extensive use of the nanite pipeline to convert sub-pixel triangle clusters into voxel clusters stored as 4x4x4 voxel bricks represented as uint64.
+These bricks are then traced against during the nanite rasterization pass using a front to back approach, where these clusters are sorted into depth buckets, for early depth testing.
+
+![img.png](assets/images/hair-geometry/nanite-voxels.png)
 
 TODO...
 
@@ -318,5 +327,7 @@ TODO...
 - [5] [*Mike "Pomax" Kamermans. A Primer on Bézier Curves, 2011-2020*](https://pomax.github.io/bezierinfo/)
 - [6] [*Juha Sjoholm. Best Practices for Using NVIDIA RTX Ray Tracing (Updated), 2022*](https://developer.nvidia.com/blog/best-practices-for-using-nvidia-rtx-ray-tracing-updated/)
 - [7] [*NVIDIA. RTX Character Rendering GitHub repository*](https://github.com/NVIDIA-RTX/RTXCR)
+- [8] [*The Witcher 4 — Unreal Engine 5 Tech Demo*](https://www.youtube.com/watch?v=Nthv4xF_zHU)
+- [9] [*Large Scale Animated Foliage in The Witcher 4 Unreal Engine 5 Tech Demo | Unreal Fest Stockholm 2025*](https://www.youtube.com/watch?v=EdNkm0ezP0o)
 
 ---
