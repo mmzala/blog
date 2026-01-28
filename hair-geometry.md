@@ -432,7 +432,7 @@ TODO...
 - [6] [*Juha Sjoholm. Best Practices for Using NVIDIA RTX Ray Tracing (Updated), 2022*](https://developer.nvidia.com/blog/best-practices-for-using-nvidia-rtx-ray-tracing-updated/)
 - [7] [*NVIDIA. RTX Character Rendering GitHub repository*](https://github.com/NVIDIA-RTX/RTXCR)
 - [8] [*The Witcher 4 — Unreal Engine 5 Tech Demo*](https://www.youtube.com/watch?v=Nthv4xF_zHU)
-- [9] [*Large Scale Animated Foliage in The Witcher 4 Unreal Engine 5 Tech Demo | Unreal Fest Stockholm 2025*](https://www.youtube.com/watch?v=EdNkm0ezP0o)
+- [9] [*Large Scale Animated Foliage in The Witcher 4 Unreal Engine 5 Tech Demo - Unreal Fest Stockholm 2025*](https://www.youtube.com/watch?v=EdNkm0ezP0o)
 - [10] [*Hair20K - A Large 3D Hairstyle Database*](https://zhouyisjtu.github.io/project_hair/hair20k.html)
 
 ---
