@@ -59,7 +59,7 @@ But in-turn by using strand-based approaches, we encounter other problems. Like 
 
 ![img.png](assets/images/hair-geometry/bvh-elongated-geometry.png)
 
-There is also the important question of what geometric primitive we want use to represent the individual hair strands. And how many strands do we want to use for hair models? Do we subdivide the hair strands into segments? If so, how many? We’ll take a closer look at these problems throughout this presentation, and I’ll showcase some solutions to them or make them less prominent.
+There is also the important question of what geometric primitive we want use to represent the individual hair strands. And how many strands do we want to use for hair models? Do we subdivide the hair strands into segments? If so, how many? We’ll take a closer look at these problems throughout this blog post, and I’ll showcase some solutions to them or make them less prominent.
 
 ### Storing Hair Model Data <a name="stroing-hair-model-data"></a>
 
