@@ -420,7 +420,22 @@ So there is definitely more to explore in terms of improvements as well as thing
 
 ### Further Reading <a name="further-reading"></a>
 
-TODO...
+If you want to read more about the latest ways to render hair, I would definitely recommend to read the RoCaps paper written by Alexander Reshetov (same author as PRHI) and David Hart.
+It gives insights into lessons learned from the Phantom Ray-Hair Intersector and applies them into its spiritual successor, Roving Capsules.
+
+[*Alexander Reshetov and David Hart. Modeling Hair Strands with Roving Capsules, 2024.*](https://www.researchgate.net/publication/381317645_Modeling_Hair_Strands_with_Roving_Capsules)
+
+For people with interest in more math, in 2022 there has been also an interesting talk about polynomial root finding that has also a lot to do with how both Phantom Ray-Hair Intersector and RoCaps work.
+
+[*Cem Yuksel. High Performance Polynomial Root Finding for Graphics - HPG 2022.*](https://www.youtube.com/watch?v=6u8-QFrDY10)
+
+And if you're interested in more implementation details, I would recommend checking out both my and NVIDIA's GitHub repositories. As well as a shader-toy example for RoCaps.
+
+[*vkhrt - My repository on GitHub that includes all the code shown here and more!*](https://github.com/mmzala/vkhrt)
+
+[*NVIDIA. RTX Character Rendering GitHub repository*](https://github.com/NVIDIA-RTX/RTXCR)
+
+[*Alexander Reshetov and David Hart. Roving Capsules Shadertoy Demonstration, 2024*](https://www.shadertoy.com/view/4ffXWs)
 
 ### Sources <a name="sources"></a>
 
