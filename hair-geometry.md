@@ -304,12 +304,67 @@ These bricks are then traced against during the nanite rasterization pass using 
 
 ![img.png](assets/images/hair-geometry/nanite-voxels.png)
 
+
+
 TODO...
 
 
 ## Conclusion <a name="conclusion"></a>
 
 So, in the end what technique should you use? That depends...
+
+<table style="width:100%; border-collapse: collapse; text-align: center;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid #ccc; padding: 8px;">Test Hairstyle</th>
+      <th style="border: 1px solid #ccc; padding: 8px;">Performance Comparison</th>
+    </tr>
+  </thead>
+  <tbody>
+
+ <tr>
+   <td style="border: 1px solid #ccc; padding: 8px; width: 40%;">
+     <img src="assets/images/hair-geometry/curly-hair.png" alt="Hairstyle A" style="max-width: 100%; height: auto;">
+     <div style="margin-top: 6px; font-size: 0.9em;">Curly Hairstyle (11.836.704 curves)</div>
+   </td>
+   <td style="border: 1px solid #ccc; padding: 8px; width: 60%;">
+
+  <table style="width:100%; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th style="border-bottom: 1px solid #aaa; padding: 6px;">Technique</th>
+        <th style="border-bottom: 1px solid #aaa; padding: 6px;">Frame Time (ms)</th>
+        <th style="border-bottom: 1px solid #aaa; padding: 6px;">Memory (MB)</th>
+        <th style="border-bottom: 1px solid #aaa; padding: 6px;">Primitives</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding: 6px;"><b>LSS</b></td>
+        <td style="padding: 6px;">~0.30</td>
+        <td style="padding: 6px;">379</td>
+        <td style="padding: 6px;">11.836.704 linear segments</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px;"><b>DOTS</b></td>
+        <td style="padding: 6px;">~0.33</td>
+        <td style="padding: 6px;">3.409</td>
+        <td style="padding: 6px;">142.040.448 vertices</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px;"><b>PRHI</b></td>
+        <td style="padding: 6px;">~1.2</td>
+        <td style="padding: 6px;">662</td>
+        <td style="padding: 6px;">11.836.704 curves</td>
+      </tr>
+    </tbody>
+  </table>
+
+   </td>
+ </tr>
+
+  </tbody>
+</table>
 
 You should ask yourself what you are trying to use it for. Curly hair using linear primitives will require much more detail, while curved primitives can easily represent such models.
 Although curved primitives require iterative approaches to resolve their intersections and will be slower to run.
@@ -329,5 +384,6 @@ TODO...
 - [7] [*NVIDIA. RTX Character Rendering GitHub repository*](https://github.com/NVIDIA-RTX/RTXCR)
 - [8] [*The Witcher 4 — Unreal Engine 5 Tech Demo*](https://www.youtube.com/watch?v=Nthv4xF_zHU)
 - [9] [*Large Scale Animated Foliage in The Witcher 4 Unreal Engine 5 Tech Demo | Unreal Fest Stockholm 2025*](https://www.youtube.com/watch?v=EdNkm0ezP0o)
+- [10] [*Hair20K - A Large 3D Hairstyle Database*](https://zhouyisjtu.github.io/project_hair/hair20k.html)
 
 ---
