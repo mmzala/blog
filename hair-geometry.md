@@ -304,10 +304,7 @@ These bricks are then traced against during the nanite rasterization pass using 
 
 ![img.png](assets/images/hair-geometry/nanite-voxels.png)
 
-
-
 TODO...
-
 
 ## Conclusion <a name="conclusion"></a>
 
@@ -316,7 +313,7 @@ So, in the end what technique should you use? That depends...
 <table style="width:100%; border-collapse: collapse; text-align: center;">
   <thead>
     <tr>
-      <th style="border: 1px solid #ccc; padding: 8px;">Test Hairstyle</th>
+      <th style="border: 1px solid #ccc; padding: 8px;">Hairstyle Model</th>
       <th style="border: 1px solid #ccc; padding: 8px;">Performance Comparison</th>
     </tr>
   </thead>
@@ -356,6 +353,47 @@ So, in the end what technique should you use? That depends...
         <td style="padding: 6px;">~1.2</td>
         <td style="padding: 6px;">662</td>
         <td style="padding: 6px;">11.836.704 curves</td>
+      </tr>
+    </tbody>
+  </table>
+
+   </td>
+ </tr>
+
+<tr>
+   <td style="border: 1px solid #ccc; padding: 8px; width: 40%;">
+     <img src="assets/images/hair-geometry/straight-ponytail-hair.png" alt="Hairstyle A" style="max-width: 100%; height: auto;">
+     <div style="margin-top: 6px; font-size: 0.9em;">Straight Ponytail Hairstyle (1.656.005 curves)</div>
+   </td>
+   <td style="border: 1px solid #ccc; padding: 8px; width: 60%;">
+
+  <table style="width:100%; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th style="border-bottom: 1px solid #aaa; padding: 6px;">Technique</th>
+        <th style="border-bottom: 1px solid #aaa; padding: 6px;">Frame Time (ms)</th>
+        <th style="border-bottom: 1px solid #aaa; padding: 6px;">Memory (MB)</th>
+        <th style="border-bottom: 1px solid #aaa; padding: 6px;">Primitives</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding: 6px;"><b>LSS</b></td>
+        <td style="padding: 6px;">~0.20</td>
+        <td style="padding: 6px;">53</td>
+        <td style="padding: 6px;">1.656.005 linear segments</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px;"><b>DOTS</b></td>
+        <td style="padding: 6px;">~0.265</td>
+        <td style="padding: 6px;">477</td>
+        <td style="padding: 6px;">19.872.060 vertices</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px;"><b>PRHI</b></td>
+        <td style="padding: 6px;">~0.7</td>
+        <td style="padding: 6px;">93</td>
+        <td style="padding: 6px;">1.656.005 curves</td>
       </tr>
     </tbody>
   </table>
