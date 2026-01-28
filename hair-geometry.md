@@ -413,7 +413,7 @@ Unfortunately, I couldn't test RoCaps as I have not had the chance to implement 
 It is definitely the next techniques I would work on to expand the comparisons between these techniques.
 
 In the table above we can see that if you have an RTX 5070 Ti, LSS currently wins by a long shot both in memory and speed.
-But you could say that I have given both DOTS and LSS techniques an advantage here, as I have not every idea
+But you could say that I have given both DOTS and LSS techniques an advantage here, as I have not implemented every idea
 I had to improve the Phantom Ray-Hair Intersector. Examples are using fewer curves while maintaining the same detail
 and constructing multiple leaf nodes for each curve primitive. This would improve both the frame time and memory usage.
 So there is definitely more to explore in terms of improvements as well as things I have not discovered yet.
