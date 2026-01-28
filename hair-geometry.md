@@ -310,6 +310,11 @@ TODO...
 
 So, in the end what technique should you use? That depends...
 
+You should ask yourself what you are trying to use it for. Curly hair using linear primitives will require much more detail, while curved primitives can easily represent such models.
+Although curved primitives require iterative approaches to resolve their intersections and will be slower to run. There is also the question of what you need to support and the memory usage of each technique.
+
+I have compiled results from a short test seen below.
+
 <table style="width:100%; border-collapse: collapse; text-align: center;">
   <thead>
     <tr>
@@ -340,19 +345,19 @@ So, in the end what technique should you use? That depends...
         <td style="padding: 6px;"><b>LSS</b></td>
         <td style="padding: 6px;">~0.30</td>
         <td style="padding: 6px;">379</td>
-        <td style="padding: 6px;">11.836.704 linear segments</td>
+        <td style="padding: 6px;">11,836,704 linear segments</td>
       </tr>
       <tr>
         <td style="padding: 6px;"><b>DOTS</b></td>
         <td style="padding: 6px;">~0.33</td>
-        <td style="padding: 6px;">3.409</td>
-        <td style="padding: 6px;">142.040.448 vertices</td>
+        <td style="padding: 6px;">3,409</td>
+        <td style="padding: 6px;">142,040,448 vertices</td>
       </tr>
       <tr>
         <td style="padding: 6px;"><b>PRHI</b></td>
         <td style="padding: 6px;">~1.2</td>
         <td style="padding: 6px;">662</td>
-        <td style="padding: 6px;">11.836.704 curves</td>
+        <td style="padding: 6px;">11,836,704 curves</td>
       </tr>
     </tbody>
   </table>
@@ -381,19 +386,19 @@ So, in the end what technique should you use? That depends...
         <td style="padding: 6px;"><b>LSS</b></td>
         <td style="padding: 6px;">~0.20</td>
         <td style="padding: 6px;">53</td>
-        <td style="padding: 6px;">1.656.005 linear segments</td>
+        <td style="padding: 6px;">1,656,005 linear segments</td>
       </tr>
       <tr>
         <td style="padding: 6px;"><b>DOTS</b></td>
         <td style="padding: 6px;">~0.265</td>
         <td style="padding: 6px;">477</td>
-        <td style="padding: 6px;">19.872.060 vertices</td>
+        <td style="padding: 6px;">19,872,060 vertices</td>
       </tr>
       <tr>
         <td style="padding: 6px;"><b>PRHI</b></td>
         <td style="padding: 6px;">~0.7</td>
         <td style="padding: 6px;">93</td>
-        <td style="padding: 6px;">1.656.005 curves</td>
+        <td style="padding: 6px;">1,656,005 curves</td>
       </tr>
     </tbody>
   </table>
@@ -404,8 +409,7 @@ So, in the end what technique should you use? That depends...
   </tbody>
 </table>
 
-You should ask yourself what you are trying to use it for. Curly hair using linear primitives will require much more detail, while curved primitives can easily represent such models.
-Although curved primitives require iterative approaches to resolve their intersections and will be slower to run.
+Unfortunately, I couldn't test RoCaps as I have not had the chance to implement them yet.
 
 ### Further Reading <a name="further-reading"></a>
 
