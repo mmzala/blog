@@ -264,13 +264,13 @@ This results in an improvement of ~30% overall in performance over the phantom r
 
 #### RoCaps - The Implementation
 
-TODO: Mention that AABB creation has to happen here as well...
+First, just like for the Phantom Ray-Hair Intersector, we have to generate our own leaf nodes for the BVH. The process is identical to the one described in the PRHI section, so I'll skip it.
 
-The algorithm works by finding possible intervals where the ray could intersect by iteratively eliminating parts that are guaranteed not to intersect.
+The RoCaps algorithm works by finding possible intervals where the ray could intersect by iteratively eliminating parts that are guaranteed not to intersect. This is the most interesting part and I wouldn't be able to do it justice as unfortunately, I have not had the chance yet to implement the algorithm myself. So I really recommend reading the paper for more details about this step!
 
 ![img.png](assets/images/hair-geometry/rc-intersection-points.png)
 
-The for each interval, we make it smaller by checking if a sphere bounding the interval intersects with the ray. If it does, we know we can still intersect with the curve. This is also where the swept spheres name comes from. But if it doesn’t we approximate the root of the interval on the curve. This either makes the interval smaller and deletes it entirely.
+Then for each interval, we make it smaller by checking if a sphere bounding the interval intersects with the ray. If it does, we know we can still intersect with the curve. But if it doesn’t we approximate the root of the interval on the curve. This either makes the interval smaller and deletes it entirely.
 
 If the interval is still there, we compute a capsule also taking into consideration the radius of the curve at the current point and try to intersect with it.
 We repeat this process until we intersect or the interval disappears. And due to finding possible intersection intervals at the beginning, an intersection is usually found within 1 or 2 iterations.
