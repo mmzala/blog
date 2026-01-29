@@ -287,13 +287,25 @@ Or at least on my implementation… There are some micro-optimizations I could i
 
 Last year, in 2025, NVIDIA released a new ray-tracing primitive with hardware support, Linear Swept Spheres. One of the main applications of the LSS primitive is rendering hair geometry.
 
-![img.png](assets/images/hair-geometry/lss-side-view.png)
+<figure align="center" class="image">
+<img src="assets/images/hair-geometry/lss-side-view.png" alt="Curve approximated using LSS geometry - side view without end caps"/>
+<figcaption> Curve approximated using LSS geometry - side view without end caps </figcaption>
+</figure>
 
-![img.png](assets/images/hair-geometry/lss-end-view.png)
+<figure align="center" class="image">
+<img src="assets/images/hair-geometry/lss-end-view.png" alt="Curve approximated using LSS geometry - end view without end caps"/>
+<figcaption> Curve approximated using LSS geometry - end view without end caps </figcaption>
+</figure>
 
-![img.png](assets/images/hair-geometry/lss-side-view-end-caps.png)
+<figure align="center" class="image">
+<img src="assets/images/hair-geometry/lss-side-view-end-caps.png" alt="Curve approximated using LSS geometry - side view with end caps"/>
+<figcaption> Curve approximated using LSS geometry - side view with end caps </figcaption>
+</figure>
 
-![img.png](assets/images/hair-geometry/lss-end-view-end-caps.png)
+<figure align="center" class="image">
+<img src="assets/images/hair-geometry/lss-end-view-end-caps.png" alt="Curve approximated using LSS geometry - end view with end caps"/>
+<figcaption> Curve approximated using LSS geometry - end view with end caps </figcaption>
+</figure>
 
 The primitive is a round 3D line with varying radii shaped like a cylinder or cone with optional spheres used as end caps. By chaining them together one after the other we can build curves to represent our hair strands.
 Since it is hardware accelerated and the intersection time is constant, it is really fast and runs around the same speed as our first solution that used triangles, but compared to them, it drastically improves memory usage, as we only need to store a position and radius per vertex, where each line has 2 vertices.
