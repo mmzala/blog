@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Ray-Tracing Hair Geometry - Graphics Study
-description: Marcin Zalewski - Date TBD
+description: Marcin Zalewski - January 30, 2026
 ---
 
 Hair geometry rendering has been mostly a mistery for me over the time I have been learning graphics programming.
