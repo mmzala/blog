@@ -307,7 +307,40 @@ These bricks are then traced against during the nanite rasterization pass using 
 
 ![img.png](assets/images/hair-geometry/nanite-voxels.png)
 
-TODO...
+But as using Unreal Engine 5 and incorporating it into the nanite pipeline would be really time-consuming and is a whole project on its own, I have decided to incorporate voxels into my hair ray-tracer and see some faster results.
+
+#### Voxelization
+
+One of the problems that needed tackling was voxelization of curved segments. While searching the internet I have found an interesting approach for voxelizing 3D lines in a not so old paper, [*Real-Time Rendering of Dynamic Line Sets using Voxel Ray Tracing, 2025*](https://arxiv.org/pdf/2510.09081).
+It describes an approach of reversing voxels on the largest axis of a line segment to mark voxels as filled or not filled based on intersecting bounding boxes.
+
+![img.png](assets/images/hair-geometry/voxelization.png)
+
+As voxels are already an approximation of our hair strands, I decided to just segment the curves into smaller straight segments that were 'good enough' and run them through the algorithm shown above.
+
+In my case this approach for voxel generation has been good enough for models I have tested it on.
+But you may also want a non-completely-conservative vocalization of your models. The same worry brought me to a paper from 1998, [*An accurate method for voxelizing polygon meshes*](https://dl.acm.org/doi/pdf/10.1145/288126.288181), 
+which describes both n-adjacent voxel neighbours checks and n-separating checks to control the conservativeness of the voxelization.
+
+#### Rendering The Voxels
+
+The generated voxels I have stored in a two level voxel brick-map, where each brick stored 4x4x4 voxels represented as an uint64.
+Then on top of that, bricks were grouped together into larger bricks for faster traversal throughout the acceleration structure. 
+This custom structure I have instanced as a Vulkan BLAS into our scene and used an intersection shader when the BLAS was hit by the hardware accelerated BVH traversal to reverse my own structure.
+This way I have leveraged both hardware acceleration and the flexibility for custom geometry.
+
+![img.png](assets/images/hair-geometry/voxel-hair.png)
+
+This is how far I have come for now with voxelized hair. It is not done yet and I have many more ideas how to improve it, but due to time shortage I had to cut the development short for now.
+
+One of my ideas was to add dynamic LODs based on the distance to the camera, which would keep the quality of the hair in check and make sure the voxels would not become much larger than just a pixel.
+
+Another idea was to smooth the normals for better shading, which would improve the illusion of normal hair strands further.
+I've found solutions to smoothing voxel normals and can be found in papers such as [*Constrained Elastic Surface Nets: Generating Smooth
+Surfaces from Binary Segmented Data*](https://scispace.com/pdf/constrained-elastic-surface-nets-generating-smooth-surfaces-l3ev5gauvh.pdf).
+
+There is also a glaring issue with my implementation. How would you animate voxels? From what I know there aren't any 'good' solutions to this yet.
+But it is a topic I am progressively more and more interested in, and I'm considering to look further into voxel animations during my masters.
 
 ## Conclusion <a name="conclusion"></a>
 
