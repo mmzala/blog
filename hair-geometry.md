@@ -317,9 +317,15 @@ So, let’s see if we can do something about these 2 issues.
 
 And we’re in luck, as the LSS primitive from NVIDIA is based off of a paper from 2024 which proposes that hair strands can be modeled by sweeping spheres with varying radii along curves.
 
-![img.png](assets/images/hair-geometry/rc-side-view.png)
+<figure align="center" class="image">
+<img src="assets/images/hair-geometry/rc-side-view.png" alt="Accurate curve using RoCaps geometry - side view"/>
+<figcaption> <a href="https://www.shadertoy.com/view/4ffXWs"> Accurate curve using RoCaps geometry - side view </a> </figcaption>
+</figure>
 
-![img.png](assets/images/hair-geometry/rc-end-view.png)
+<figure align="center" class="image">
+<img src="assets/images/hair-geometry/rc-end-view.png" alt="Accurate curve using RoCaps geometry - end view"/>
+<figcaption> <a href="https://www.shadertoy.com/view/4ffXWs"> Accurate curve using RoCaps geometry - end view </a> </figcaption>
+</figure>
 
 Such shapes can be ray-traced by finding intersections of a given ray with a set of roving capsules defined at runtime. Or RoCaps in short.
 It is also an iterative approach, but it gets a substantial performance boost by eliminating parts of the curved shape that are guaranteed not to intersect with a given ray.
@@ -331,7 +337,10 @@ First, just like for the Phantom Ray-Hair Intersector, we have to generate our o
 
 The RoCaps algorithm works by finding possible intervals where the ray could intersect by iteratively eliminating parts that are guaranteed not to intersect. This is the most interesting part and I wouldn't be able to do it justice as unfortunately, I have not had the chance yet to implement the algorithm myself. So I really recommend reading the paper for more details about this step!
 
-![img.png](assets/images/hair-geometry/rc-intersection-points.png)
+<figure align="center" class="image">
+<img src="assets/images/hair-geometry/rc-intersection-points.png" alt="Intersection intervals elimination"/>
+<figcaption> <a href="https://www.researchgate.net/publication/381317645_Modeling_Hair_Strands_with_Roving_Capsules"> Intersection intervals elimination </a> </figcaption>
+</figure>
 
 Then for each interval, we make it smaller by checking if a sphere bounding the interval intersects with the ray. If it does, we know we can still intersect with the curve. But if it doesn’t we approximate the root of the interval on the curve. This either makes the interval smaller and deletes it entirely.
 
@@ -349,7 +358,10 @@ Also, when a curve is quickly changing along with its radius, it can lead to the
 And RoCaps is still an iterative approach, which means non-linear execution time that may vary per model.
 So we again sacrifice performance for quality. But even with these downslides, it is still an overall improvement as even the problems we had with our phantom ray-hair intersector are gone.
 
-![img.png](assets/images/hair-geometry/prhi-impossible-curves.png)
+<figure align="center" class="image">
+<img src="assets/images/hair-geometry/prhi-impossible-curves.png" alt="Impossible curves"/>
+<figcaption> <a href="https://research.nvidia.com/sites/default/files/pubs/2018-08_Phantom-Ray-Hair-Intersector//Phantom-HPG%202018.pdf"> 'Impossible' curves are no longer impossible! </a> </figcaption>
+</figure>
 
 #### RoCaps - Comparing to LSS
 
