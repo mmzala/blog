@@ -277,19 +277,22 @@ We repeat this process until we intersect or the interval disappears. And due to
 
 #### RoCaps - The Downsides
 
-Using quadratic or cubic Bézier curves, adding more control points results in more complex root approximation and is not worth it for performance.
+This technique has many advantages, but of course it comes with limitations and downsides as well. 
+
+Using quadratic or cubic Bézier curves is pretty much a must, adding more control points results in more complex root approximation and is not worth it for performance.
 
 Also, when a curve is quickly changing along with its radius, it can lead to the curve folding onto itself. But again, such a scenario is very unlikely to happen with a hair model.
 
-But the problems we had with our phantom ray-hair intersector are gone!
+And RoCaps is still an iterative approach, which means non-linear execution time that may vary per model.
+So we again sacrifice performance for quality. But even with these downslides, it is still an overall improvement as even the problems we had with our phantom ray-hair intersector are gone.
 
 ![img.png](assets/images/hair-geometry/prhi-impossible-curves.png)
 
 #### RoCaps - Comparing to LSS
 
-Why implement the algorithm in linear segments? I have had the chance to talk to an NVIDIA employee that worked on the technology and ask him about it.
+Now for those curious and an important question to ask. If RoCaps exist, then why did NVIDIA implement the algorithm in linear segments? I have had the chance to talk to an NVIDIA researcher that worked on the technology and ask him about it.
 
-Since LSS is on a linear segment as that allows for a non-iterative implementation.
+The main reason is that since LSS is on a linear segment as that allows for a non-iterative implementation.
 
 This is better for a hardware port as non-iterative implementations have a predictable execution flow, which means you can make assumptions and optimize for it. For example, is known what the exact resource usage will be and it can be accounted for. It is also easier to implement as the sequential flow of logic gates and registers is easier to verify and is less prone to errors.
 
