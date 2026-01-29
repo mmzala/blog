@@ -535,7 +535,7 @@ It is definitely the next technique I would work on to expand the comparisons be
 In the table above we can see that if you have an RTX 50xx series GPU, LSS currently wins by a long shot both in memory and speed.
 But you could say that I have given both DOTS and LSS techniques an advantage here, as I have not implemented every idea
 I had to improve the Phantom Ray-Hair Intersector. Examples are using fewer curves while maintaining the same detail
-and constructing multiple leaf nodes for each curve primitive. This would improve both the frame time and memory usage.
+and constructing multiple leaf nodes for each curve primitive. Both these points are also the reason why I use the same amount of curves with PRHI as linear segemnts for LSS, since modeling with fewer curves would degrade performance without these improvements. But both of these would improve both the frame time and memory usage.
 So there is definitely more to explore in terms of improvements as well as things I have not discovered yet.
 
 ### Further Reading <a name="further-reading"></a>
