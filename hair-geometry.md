@@ -463,7 +463,7 @@ I have compiled results from a short test seen below. Everything was tested on a
 </table>
 
 Unfortunately, I couldn't test RoCaps as I have not had the chance to implement it yet.
-It is definitely the next techniques I would work on to expand the comparisons between these techniques.
+It is definitely the next technique I would work on to expand the comparisons between these geometric hair primitives.
 
 In the table above we can see that if you have an RTX 5070 Ti, LSS currently wins by a long shot both in memory and speed.
 But you could say that I have given both DOTS and LSS techniques an advantage here, as I have not implemented every idea
