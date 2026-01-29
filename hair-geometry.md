@@ -380,7 +380,10 @@ My inspiration for using voxels as hair primitives came from the [Witcher 4 demo
 They make extensive use of the nanite pipeline to convert sub-pixel triangle clusters into voxel clusters stored as 4x4x4 voxel bricks represented as uint64.
 These bricks are then traced against during the nanite rasterization pass using a front to back approach, where these clusters are sorted into depth buckets, for early depth testing.
 
-![img.png](assets/images/hair-geometry/nanite-voxels.png)
+<figure align="center" class="image">
+<img src="assets/images/hair-geometry/nanite-voxels.png" alt="Nanite voxelized foliage"/>
+<figcaption> <a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/nanite-foliage"> Nanite voxelized foliage </a> </figcaption>
+</figure>
 
 But as using Unreal Engine 5 and incorporating it into the nanite pipeline would be really time-consuming and is a whole project on its own, I have decided to incorporate voxels into my hair ray-tracer and see some faster results.
 
@@ -389,7 +392,10 @@ But as using Unreal Engine 5 and incorporating it into the nanite pipeline would
 One of the problems that needed tackling was voxelization of curved segments. While searching the internet I have found an interesting approach for voxelizing 3D lines in a not so old paper, [*Real-Time Rendering of Dynamic Line Sets using Voxel Ray Tracing, 2025*](https://arxiv.org/pdf/2510.09081).
 It describes an approach of traversing voxels on the largest axis of a line segment to mark voxels as filled or not filled based on intersecting bounding boxes.
 
-![img.png](assets/images/hair-geometry/voxelization.png)
+<figure align="center" class="image">
+<img src="assets/images/hair-geometry/voxelization.png" alt="3D line voxelization"/>
+<figcaption> <a href="https://arxiv.org/pdf/2510.09081"> 3D line voxelization </a> </figcaption>
+</figure>
 
 As voxels are already an approximation of our hair strands, I decided to just segment the curves into smaller straight segments that were 'good enough' and run them through the algorithm shown above.
 
@@ -404,7 +410,10 @@ Then on top of that, bricks were grouped together into larger bricks for faster 
 This custom structure I have instanced as a Vulkan BLAS into our scene and used an intersection shader when the BLAS was hit by the hardware accelerated BVH traversal to reverse my own structure.
 This way I have leveraged both hardware acceleration and the flexibility for custom geometry.
 
-![img.png](assets/images/hair-geometry/voxel-hair.png)
+<figure align="center" class="image">
+<img src="assets/images/hair-geometry/voxel-hair.png" alt="3D line voxelization"/>
+<figcaption> Voxelized hair mesh render </figcaption>
+</figure>
 
 This is how far I have come for now with voxelized hair. It is not done yet and I have many more ideas how to improve it, but due to time shortage I had to cut the development short for now.
 
