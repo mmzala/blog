@@ -149,9 +149,15 @@ That’s where the Phantom Ray-Hair Intersector comes in.
 It allows us to use our curve data directly in our custom intersection shader to check ray-curve intersections, which results in an accurate and smooth hair strand.
 The hair strand itself is now also a volume and has accurate normals, which looks much better than our previous method. We also can turn the end caps, which would be flat, on or off.
 
-![img.png](assets/images/hair-geometry/prhi-side-view.png)
+<figure align="center" class="image">
+<img src="assets/images/hair-geometry/prhi-side-view.png" alt="Accurate curve using PRHI geometry - side view"/>
+<figcaption> Accurate curve using PRHI geometry - side view </figcaption>
+</figure>
 
-![img.png](assets/images/hair-geometry/prhi-end-view.png)
+<figure align="center" class="image">
+<img src="assets/images/hair-geometry/prhi-end-view.png" alt="Accurate curve using PRHI geometry - end view"/>
+<figcaption> Accurate curve using PRHI geometry - end view </figcaption>
+</figure>
 
 But how do we use our curve data to implement the phantom ray-hair intersector?
 
@@ -228,19 +234,29 @@ std::vector<AABB> GenerateAABBs(const std::vector<Curve>& curves, float curveRad
 Instead, we could use a derivative and find the curve’s roots on all axes. This would give us the curve’s extremities. Then if we make sure all these, points together with the start and end point of the curve are all inside the bounding box, it would give us an accurate AABB that tightly bounds the curve.
 But as this process can be quite complicated to explain and is math-heavy, it would take some time to explain fully, so I won’t be explaining it in detail. TODO: Add link to source...
 
-![img.png](assets/images/hair-geometry/tight-aabb.png)
+<figure align="center" class="image">
+<img src="assets/images/hair-geometry/tight-aabb.png" alt="AABB construction from curves"/>
+<figcaption> <a href="https://pomax.github.io/bezierinfo/"> AABB construction from curves </a> </figcaption>
+</figure>
 
 One of the problems we mentioned at the beginning was that thin long geometry was bad for BVH traversal. We can somewhat overcome this during BVH creation, by generating multiple bounding boxes for curves, which removes a lot of empty space in some instances.
 
-![img.png](assets/images/hair-geometry/aabb-leaf-node-split.png)
+<figure align="center" class="image">
+<img src="assets/images/hair-geometry/aabb-leaf-node-split.png" alt="Multiple BVH leaf nodes for each primitive results in better traversal"/>
+<figcaption> Multiple BVH leaf nodes for each primitive results in better traversal </figcaption>
+</figure>
 
-So now that we have our BVH ready and we can traverse through it, we want to iteratively find the ray-curve intersection. So, let’s take a look at how we can do that.
+So now that we have our BVH ready, and we can traverse through it, we want to iteratively find the ray-curve intersection. So, let’s take a look at how we can do that.
 
 #### Phantom Ray-Hair Intersector - The Implementation
 
 We’ll start our iterations at t 0 or 1, where t is the distance along the curve. Each iteration has 3 main steps we have to perform.
 
-![img.png](assets/images/hair-geometry/prhi-3-itrs.png)
+<figure align="center" class="image">
+<img src="assets/images/hair-geometry/prhi-3-itrs.png" alt="3 iterations of the PRHI algorithm"/>
+<figcaption> <a href="https://research.nvidia.com/sites/default/files/pubs/2018-08_Phantom-Ray-Hair-Intersector//Phantom-HPG%202018.pdf"> 3 iterations of the PRHI algorithm </a> </figcaption>
+</figure>
+
 
 1. We first create a cone at distance t along the curve that has the same radius as the thickness of our hair strand. The cone’s axis will travel straight toward the direction we’re trying to converge to.
 
@@ -257,7 +273,10 @@ Although that can be fixed by pre-processing the curves and splitting them whene
 
 Another example of an impossible curve is when the start and end radii differ too much, although such as cases are unlikely to happen in real hair models.
 
-![img.png](assets/images/hair-geometry/prhi-impossible-curves.png)
+<figure align="center" class="image">
+<img src="assets/images/hair-geometry/prhi-impossible-curves.png" alt="Impossible curves"/>
+<figcaption> <a href="https://research.nvidia.com/sites/default/files/pubs/2018-08_Phantom-Ray-Hair-Intersector//Phantom-HPG%202018.pdf"> Impossible curves </a> </figcaption>
+</figure>
 
 There is another big downside to this algorithm. The phantom ray hair intersector runs on average 1.5 times slower than our previous technique where we used triangles.
 Due to the nature of it being an iterative approach, the time to intersect with a curve is not constant, so in some cases it may run even slower.
