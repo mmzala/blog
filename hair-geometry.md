@@ -433,7 +433,7 @@ So, in the end what technique should you use? That depends...
 You should ask yourself what you are trying to use it for. Curly hair using linear primitives will require much more detail, while curved primitives can easily represent such models.
 Although curved primitives require iterative approaches to resolve their intersections and will be slower to run. There is also the question of what you need to support and the memory usage of each technique.
 
-I have compiled results from a short test seen below. Everything was tested on a RTX 5070 Ti GPU.
+I have compiled results from a short test seen below. Everything was tested on a RTX 5070 Ti GPU and 1920x1080 resolution.
 
 <table style="width:100%; border-collapse: collapse; text-align: center;">
   <thead>
