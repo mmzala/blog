@@ -312,7 +312,7 @@ But as using Unreal Engine 5 and incorporating it into the nanite pipeline would
 #### Voxelization
 
 One of the problems that needed tackling was voxelization of curved segments. While searching the internet I have found an interesting approach for voxelizing 3D lines in a not so old paper, [*Real-Time Rendering of Dynamic Line Sets using Voxel Ray Tracing, 2025*](https://arxiv.org/pdf/2510.09081).
-It describes an approach of reversing voxels on the largest axis of a line segment to mark voxels as filled or not filled based on intersecting bounding boxes.
+It describes an approach of traversing voxels on the largest axis of a line segment to mark voxels as filled or not filled based on intersecting bounding boxes.
 
 ![img.png](assets/images/hair-geometry/voxelization.png)
 
