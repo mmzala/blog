@@ -532,7 +532,7 @@ I have compiled results from a short test seen below. Everything was tested on a
 Unfortunately, I couldn't test RoCaps as I have not had the chance to implement it yet.
 It is definitely the next technique I would work on to expand the comparisons between these geometric hair primitives.
 
-In the table above we can see that if you have an RTX 5070 Ti, LSS currently wins by a long shot both in memory and speed.
+In the table above we can see that if you have an RTX 50xx series GPU, LSS currently wins by a long shot both in memory and speed.
 But you could say that I have given both DOTS and LSS techniques an advantage here, as I have not implemented every idea
 I had to improve the Phantom Ray-Hair Intersector. Examples are using fewer curves while maintaining the same detail
 and constructing multiple leaf nodes for each curve primitive. This would improve both the frame time and memory usage.
