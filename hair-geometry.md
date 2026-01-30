@@ -571,4 +571,4 @@ And if you're interested in more implementation details, I would recommend check
 - [10] [*Hair20K - A Large 3D Hairstyle Database*](https://zhouyisjtu.github.io/project_hair/hair20k.html)
 
 ---
-*If you made it this far I would like to thank you for spending your time to read my blog post. Feel free to reach out through my e-mail (marcinzal24@gmail.com) with any questions or comments. You can also find me on LinkedIn if you would rather reach out to me that way.*
+*If you made it this far I would like to thank you for spending your time to read my blog post. Feel free to reach out through my e-mail (marcinzal24@gmail.com) with any questions or comments. You can also find me on LinkedIn if you would rather reach out to me that way. And if you're interested in more of my blog posts, you can them at the [main page](https://mmzala.github.io/blog/).*
